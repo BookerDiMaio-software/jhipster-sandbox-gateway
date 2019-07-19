@@ -1,0 +1,12 @@
+// Custom SCSS
+
+// Import all _custom-[name].scss files before importing the default bootstrap.scss file.
+
+@import'_custom-variables.scss';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+
+.test-element {
+    background-color: $weird-color;
+}
+
