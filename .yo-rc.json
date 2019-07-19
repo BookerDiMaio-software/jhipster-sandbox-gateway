@@ -1,7 +1,8 @@
 {
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "com.bookerdimaio.sandbox"
+      "packageName": "com.bookerdimaio.sandbox",
+      "microservicePath": "../microservice1"
     },
     "jhipsterVersion": "6.1.2",
     "applicationType": "gateway",
