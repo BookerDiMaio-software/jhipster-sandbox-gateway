@@ -1,8 +1,9 @@
 #!/usr/bin/env groovy
-environment {
-    HOME = '.'
-}
+
 node {
+    environment {
+        HOME = '.'
+    }
     stage('checkout') {
         checkout scm
     }
@@ -21,7 +22,7 @@ node {
     }
 
     stage('npm install') {
-        sh "npm install"
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm"
     }
 
     stage('backend tests') {
