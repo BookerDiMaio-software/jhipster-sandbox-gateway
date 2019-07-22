@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
-
+environment {
+    HOME = '.'
+}
 node {
     stage('checkout') {
         checkout scm
