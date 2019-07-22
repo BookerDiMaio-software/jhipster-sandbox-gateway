@@ -1,23 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
+import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { ICrudGetAllAction } from 'react-jhipster';
+import { ICrudGetAllAction, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './greeter.reducer';
+import { getEntityByName, getEntities } from './greeter.reducer';
 import { IGreeter } from 'app/shared/model/microservice1/greeter.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IGreeterProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
+export interface IGreeterState {
+  searchF: string;
+  searchL: string;
+}
+
 export class Greeter extends React.Component<IGreeterProps> {
+  state: IGreeterState = {
+    searchF: '',
+    searchL: ''
+  };
+
   componentDidMount() {
     this.props.getEntities();
   }
+
+  search = () => {
+    if (this.state.searchF && this.state.searchL) {
+      this.props.getEntityByName(this.state.searchF, this.state.searchL);
+    }
+  };
+
+  clear = () => {
+    this.setState({ searchF: '', searchL: '' }, () => {
+      this.props.getEntities();
+    });
+  };
+
+  handleSearchF = event => this.setState({ searchF: event.target.value });
+  handleSearchL = event => this.setState({ searchL: event.target.value });
 
   render() {
     const { greeterList, match } = this.props;
@@ -30,6 +56,36 @@ export class Greeter extends React.Component<IGreeterProps> {
             &nbsp; Create new Greeter
           </Link>
         </h2>
+        <Row>
+          <Col sm="12">
+            <AvForm onSubmit={this.search}>
+              <AvGroup>
+                <InputGroup>
+                  <AvInput
+                    type="text"
+                    name="searchF"
+                    value={this.state.searchF}
+                    onChange={this.handleSearchF}
+                    placeholdecdr={translate('gatewayApp.helloWorldGreeter.firstName')}
+                  />
+                  <AvInput
+                    type="text"
+                    name="searchL"
+                    value={this.state.searchL}
+                    onChange={this.handleSearchL}
+                    placeholder={translate('gatewayApp.helloWorldGreeter.lastName')}
+                  />
+                  <Button className="input-group-addon">
+                    <FontAwesomeIcon icon="search" />
+                  </Button>
+                  <Button type="reset" className="input-group-addon" onClick={this.clear}>
+                    <FontAwesomeIcon icon="sync" />
+                  </Button>
+                </InputGroup>
+              </AvGroup>
+            </AvForm>
+          </Col>
+        </Row>
         <div className="table-responsive">
           {greeterList && greeterList.length > 0 ? (
             <Table responsive>
@@ -80,10 +136,12 @@ export class Greeter extends React.Component<IGreeterProps> {
 }
 
 const mapStateToProps = ({ greeter }: IRootState) => ({
-  greeterList: greeter.entities
+  greeterList: greeter.entities,
+  greeter: greeter.entity
 });
 
 const mapDispatchToProps = {
+  getEntityByName,
   getEntities
 };
 
