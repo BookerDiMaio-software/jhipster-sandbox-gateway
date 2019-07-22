@@ -22,7 +22,9 @@ node {
     }
 
     stage('npm install') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm"
+        sh "pwd"
+        sh "ls"
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm ."
     }
 
     stage('backend tests') {
