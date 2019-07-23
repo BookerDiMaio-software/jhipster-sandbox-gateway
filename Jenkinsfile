@@ -26,7 +26,12 @@ node {
         sh "ls"
         sh "ls -la node/"
         sh "echo \$PATH"
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm ."
+        sh "./mvnw -e com.github.eirslett:frontend-maven-plugin:npm"
+    }
+
+    stage('install tools and npm install') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
+        sh "./mvnw -X com.github.eirslett:frontend-maven-plugin:npm"
     }
 
     stage('backend tests') {
