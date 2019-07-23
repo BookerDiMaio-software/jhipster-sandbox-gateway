@@ -26,9 +26,10 @@ node {
         sh "ls /var/jenkins_home/workspace/sandbox-gateway_jenkins-pipeline"
         sh "ls -la node/"
         sh "env"
+        sh "chmod +rwx node"
 //        sh "./node/node --version"
 //        sh "chmod +x /var/jenkins_home/workspace/sandbox-gateway_jenkins-pipeline/node/node"
-        sh "./node/npm install"
+        sh "source node/npm install"
         sh "./mvnw -X com.github.eirslett:frontend-maven-plugin:npm"
     }
 
