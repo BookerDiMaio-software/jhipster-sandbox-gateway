@@ -24,8 +24,6 @@ node {
     stage('npm install') {
         sh "pwd"
         sh "ls"
-        sh "which node"
-        sh "which npm"
         sh "ls -la node/"
         sh "env"
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
