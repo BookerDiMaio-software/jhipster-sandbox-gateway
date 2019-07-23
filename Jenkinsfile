@@ -26,7 +26,8 @@ node {
         sh "ls"
         sh "ls -la node/"
         sh "env"
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
+        sh "/var/jenkins_home/workspace/sandbox-gateway_jenkins-pipeline/node/node --version"
+        sh "chmod +x /var/jenkins_home/workspace/sandbox-gateway_jenkins-pipeline/node/node"
         sh "./mvnw -X com.github.eirslett:frontend-maven-plugin:npm"
     }
 
