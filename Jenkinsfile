@@ -11,5 +11,10 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('npm Tests') {
+            steps {
+                sh 'npm test-ci'
+            }
+        }
     }
 }
