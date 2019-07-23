@@ -24,6 +24,8 @@ node {
     stage('npm install') {
         sh "pwd"
         sh "ls"
+        sh "ls -la node/"
+        sh "echo \$PATH"
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm ."
     }
 
