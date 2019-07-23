@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export class Home extends React.Component<IHomeProp> {
+  developerNames = ['Brandon', 'Cam', 'Grant', 'Peter', 'Rachel'];
+
   componentDidMount() {
     this.props.getSession();
   }
@@ -21,8 +22,17 @@ export class Home extends React.Component<IHomeProp> {
     return (
       <Row>
         <Col md="9">
-          <h2>Welcome, Java Hipster!</h2>
-          <p className="lead">This is your homepage</p>
+          <h2>Welcome!</h2>
+          <p>Here are links to all the developer sandbox pages:</p>
+          <ul>
+            {this.developerNames.map(name => (
+              <li>
+                <Link to={`/${name}`} className="alert-link">
+                  {name}
+                </Link>
+              </li>
+            ))}
+          </ul>
           {account && account.login ? (
             <div>
               <Alert color="success">You are logged in as user {account.login}.</Alert>
@@ -48,43 +58,6 @@ export class Home extends React.Component<IHomeProp> {
               </Alert>
             </div>
           )}
-          <p>If you have any question on JHipster:</p>
-
-          <ul>
-            <li>
-              <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-                JHipster homepage
-              </a>
-            </li>
-            <li>
-              <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-                JHipster on Stack Overflow
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-                JHipster bug tracker
-              </a>
-            </li>
-            <li>
-              <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-                JHipster public chat room
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/java_hipster" target="_blank" rel="noopener noreferrer">
-                follow @java_hipster on Twitter
-              </a>
-            </li>
-          </ul>
-
-          <p>
-            If you like JHipster, do not forget to give us a star on{' '}
-            <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              Github
-            </a>
-            !
-          </p>
         </Col>
         <Col md="3" className="pad">
           <span className="hipster rounded" />

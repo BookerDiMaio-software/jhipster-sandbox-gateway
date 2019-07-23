@@ -14,6 +14,11 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import BrandonHome from 'app/modules/brandon/home';
+import CamHome from 'app/modules/cam/home';
+import RachelHome from 'app/modules/rachel/home';
+import GrantHome from 'app/modules/grant/home';
+import PeterHome from 'app/modules/peter/home';
 
 // tslint:disable:space-in-parens
 const Account = Loadable({
@@ -40,6 +45,11 @@ const Routes = () => (
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/entity" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
+      <ErrorBoundaryRoute path="/brandon" exact component={BrandonHome} />
+      <ErrorBoundaryRoute path="/cam" exact component={CamHome} />
+      <ErrorBoundaryRoute path="/grant" exact component={GrantHome} />
+      <ErrorBoundaryRoute path="/peter" exact component={PeterHome} />
+      <ErrorBoundaryRoute path="/rachel" exact component={RachelHome} />
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
   </div>
