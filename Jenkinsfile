@@ -17,19 +17,17 @@ node {
         sh "./mvnw clean"
     }
 
-    stage('install tools') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
-    }
+//    stage('install tools') {
+//        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
+//    }
 
     stage('npm install') {
         sh "pwd"
         sh "ls"
+        sh "which node"
+        sh "which npm"
         sh "ls -la node/"
-        sh "echo \$PATH"
-        sh "./mvnw -e com.github.eirslett:frontend-maven-plugin:npm"
-    }
-
-    stage('install tools and npm install') {
+        sh "env"
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
         sh "./mvnw -X com.github.eirslett:frontend-maven-plugin:npm"
     }
