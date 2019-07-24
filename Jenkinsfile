@@ -49,10 +49,12 @@ node {
         }
     }
 
-    def dockerImage
-    stage('publish docker') {
-        // A pre-requisite to this step is to setup authentication to the docker registry
-        // https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#authentication-methods
-        sh "./mvnw jib:build"
-    }
+//    TODO: re=include this once a registry is configured
+
+//    def dockerImage
+//    stage('publish docker') {
+//        // A pre-requisite to this step is to setup authentication to the docker registry
+//        // https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#authentication-methods
+//        sh "./mvnw jib:build"
+//    }
 }
