@@ -1,9 +1,10 @@
-FROM openjdk:8-jdk-slim
+FROM openjdk:11-jdk-slim
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 8082
 
 # Copy the YAML configuration file to /opt/conf
-COPY src/main/resources/application.yml /opt/conf/application.yml
+COPY src/main/resources/config/application.yml /opt/conf/application.yml
 ENV CONFIG_LOCATION /opt/conf/application.yml
 
 # Copy the fat jar file to /opt. This assumes that there are up to four jar files:
