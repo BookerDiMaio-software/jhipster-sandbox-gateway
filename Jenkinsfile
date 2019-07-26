@@ -23,7 +23,8 @@ pipeline {
           sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
           sh "mvn install"
           sh "skaffold version"
-          sh "ls"
+          sh "ls target"
+          sh "ls target/*"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
           dir('charts/preview') {
