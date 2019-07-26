@@ -1,82 +1,73 @@
+import { IGreeter } from 'app/shared/model/microservice1/greeter.model';
+import axios from 'axios';
 import React from 'react';
-
 import { connect } from 'react-redux';
-import { Row, Col } from 'reactstrap';
-import world from '../../../static/images/world_spin.gif';
-import { prependOnceListener } from 'cluster';
 import { RouteComponentProps } from 'react-router-dom';
+import world from '../../../static/images/world_spin.gif';
 
-export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IHomeProp extends RouteComponentProps<{ url: string }> {}
 
 export interface IHomeState {
-  people: [];
   idToken: number;
   searchF: string;
   searchL: string;
-  firstName: string;
-  lastName: string;
-  salutation: string;
+  person: IGreeter;
+  isConnected: boolean;
 }
 
 export class BrandonHome extends React.Component<IHomeProp> {
   state: IHomeState = {
-    people: [],
     idToken: 0,
     searchF: '',
     searchL: '',
-    firstName: '',
-    lastName: '',
-    salutation: ''
+    person: null,
+    isConnected: false
   };
 
   // this.randomIndex = Math.floor(Math.random()*10);
 
-  handleInputChange = e => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
+  handleInputChange = event => {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value });
   };
 
-  searchDB = e => {
-    e.preventDefault();
+  searchDB = event => {
+    const apiSearchUrl = 'http://localhost:8080/services/microservice1/api/greeters/find';
+    event.preventDefault();
     axios
       .post('http://localhost:8080/api/authenticate', {
         password: 'admin',
         username: 'admin'
       })
       .then(response => {
-        this.setState({ idToken: response.data.id_token });
+        this.setState({ idToken: response.data.id_token, isConnected: true });
         const headers = {
           headers: {
             Authorization: `Bearer ${this.state.idToken}`
           }
         };
-        axios
-          .get(`http://localhost:8080/services/microservice/api/_search/sayhelloworlds?query=${this.state.search}`, headers)
-          .then(res => {
-            console.log(res.data);
-            if (res.data.length) {
-              this.setState({ salutation: res.data[0].salutation, firstName: res.data[0].firstName, lastName: res.data[0].lastName });
-            } else {
-              this.randomIndex = Math.floor(Math.random() * this.props.people.length);
-              this.setState({ salutation: '', firstName: '', lastName: '' });
-            }
-          });
+        axios.get(`${apiSearchUrl}?=${this.state.searchF}&${this.state.searchL}`, headers).then(res => {
+          // console.log(res.data);
+          if (res.data.length) {
+            this.setState({ person: res.data[0] });
+          }
+        });
+      })
+      .catch(response => {
+        this.setState({ isConnected: false });
       });
   };
 
   render() {
-    console.log(this.randomIndex);
-    return this.props.people.length ? (
+    // console.log(this.randomIndex);
+    return this.state.isConnected ? (
       <div>
-        {this.state.salutation.length ? (
+        {this.state.person !== null ? (
           <h1>
-            {this.state.salutation}, {this.state.firstName} {this.state.lastName}!
+            {this.state.person.salutation}, {this.state.person.firstName} {this.state.person.lastName}!
           </h1>
         ) : (
-          <h1>
-            {this.props.people[this.randomIndex].salutation}, {this.props.people[this.randomIndex].firstName}{' '}
-            {this.props.people[this.randomIndex].lastName}!
-          </h1>
+          <h1>Nobody matching the search criteria found.</h1>
         )}
         <img src={world} />
 
@@ -87,7 +78,7 @@ export class BrandonHome extends React.Component<IHomeProp> {
         </form>
       </div>
     ) : (
-      <div>loading...</div>
+      <h2>Loading...</h2>
     );
   }
 }
@@ -96,8 +87,8 @@ const mapStateToProps = storeState => ({});
 
 const mapDispatchToProps = {};
 
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
+// type StateProps = ReturnType<typeof mapStateToProps>;
+// type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(
   mapStateToProps,
