@@ -9,16 +9,15 @@ pipeline {
     DOCKER_REGISTRY_ORG = 'jhipster-sandbox'
   }
   stages {
-    stage('Build') {
+    stage('npm install and test') {
       steps {
-        sh 'npm install'
+        container('node') {
+          sh 'npm install'
+          sh 'npm run test-ci'
+        }
       }
     }
-    stage('npm Tests') {
-      steps {
-        sh 'npm run test-ci'
-      }
-    }
+
     stage('CI Build and push snapshot') {
       when {
         branch 'PR-*'
@@ -30,6 +29,8 @@ pipeline {
       }
       steps {
         container('maven') {
+//          sh "npm install"
+//          sh "npm run test-ci"
           sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
           sh "mvn install"
           sh "skaffold version"
