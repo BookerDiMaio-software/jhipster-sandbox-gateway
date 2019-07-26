@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, ICrudSearchAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, ICrudSearchAction, IPayloadResult } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -124,7 +124,7 @@ export const getEntityByName: ICrudSearchAction<IGreeter> = (firstName, lastName
   };
 };
 
-export const getEntityAlphaLastName: ICrudGetAction<IGreeter> = () => {
+export const getEntityAlphaLastName: ICrudSearchAction<IGreeter> = () => {
   const requestUrl = `${apiUrl}/alpha-last`;
   return {
     type: ACTION_TYPES.FETCH_GREETER,
