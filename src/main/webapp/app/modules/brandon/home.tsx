@@ -46,10 +46,12 @@ export class BrandonHome extends React.Component<IHomeProp> {
             Authorization: `Bearer ${this.state.idToken}`
           }
         };
-        axios.get(`${apiSearchUrl}?=${this.state.searchF}&${this.state.searchL}`, headers).then(res => {
-          // console.log(res.data);
+        axios.get(`${apiSearchUrl}?firstName=${this.state.searchF}&lastName=${this.state.searchL}`, headers).then(res => {
+          const data = res.data[0];
           if (res.data.length) {
-            this.setState({ person: res.data[0] });
+            this.setState({ person: data });
+          } else {
+            this.setState({ person: null });
           }
         });
       })
@@ -60,14 +62,15 @@ export class BrandonHome extends React.Component<IHomeProp> {
 
   render() {
     // console.log(this.randomIndex);
-    return this.state.isConnected ? (
+    return (
+      // this.state.isConnected ? (
       <div>
         {this.state.person !== null ? (
           <h1>
             {this.state.person.salutation}, {this.state.person.firstName} {this.state.person.lastName}!
           </h1>
         ) : (
-          <h1>Nobody matching the search criteria found.</h1>
+          <h1>No Greeters found.</h1>
         )}
         <img src={world} />
 
@@ -76,9 +79,11 @@ export class BrandonHome extends React.Component<IHomeProp> {
           <input name="searchL" value={this.state.searchL} placeholder="Last Name" onChange={this.handleInputChange} />
           <button type="submit">Submit</button>
         </form>
+        <div> {this.state.person} </div>
       </div>
-    ) : (
-      <h2>Loading...</h2>
+      // ) : (
+      //     <h2>Loading...</h2>
+      //   )
     );
   }
 }
