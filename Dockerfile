@@ -13,7 +13,7 @@ ENV CONFIG_LOCATION /opt/conf/application.yml
 #   app-1.0.0-sources.jar
 #   app-1.0.0-javadoc.jar
 
-COPY target/[^original]*[^javadoc][^sources][^SNAPSHOT^].jar /opt/app.jar
+COPY target/*.jar /opt/app.jar
 
 WORKDIR /opt
 
