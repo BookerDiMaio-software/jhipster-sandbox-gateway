@@ -3,24 +3,37 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 
+import { getEntityAlphaLastName } from '../../entities/microservice1/greeter/greeter.reducer';
+
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export class CamHome extends React.Component<IHomeProp> {
+  componentDidMount() {
+    this.props.getEntityAlphaLastName();
+  }
+
   render() {
+    const greeter = this.props.greeterEntity;
     return (
       <Row>
         <Col md="9">
           <h2>Welcome to Cam's homepage!</h2>
-          <p>Add your React code to src/main/webapp/app/modules/cam</p>
+          <p>
+            Sorting alphabetically by last name, {greeter.firstName} {greeter.lastName} is first.
+          </p>
         </Col>
       </Row>
     );
   }
 }
 
-const mapStateToProps = storeState => ({});
+const mapStateToProps = storeState => ({
+  greeterEntity: storeState.greeter.entity
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getEntityAlphaLastName
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
