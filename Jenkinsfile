@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('npm install and test') {
       steps {
-        container('node') {
+        container('maven') {
           sh 'npm install'
           sh 'npm run test-ci'
         }
