@@ -1,11 +1,17 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:8-alpine'
-    }
+  environment {
+    ORG = 'bookerdimaio-software'
+    APP_NAME = 'jhipster-sandbox-gateway'
+    CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+    DOCKER_REGISTRY_ORG = 'jhipster-sandbox'
   }
   stages {
     stage('npm install and test') {
+      agent {
+        docker {
+          image 'node:8-alpine'
+        }
+      }
       steps {
         container('node') {
           sh 'node --version'
@@ -15,17 +21,9 @@ pipeline {
         }
       }
     }
-  }
-  agent {
-    label "jenkins-maven"
-  }
-  environment {
-    ORG = 'bookerdimaio-software'
-    APP_NAME = 'jhipster-sandbox-gateway'
-    CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
-    DOCKER_REGISTRY_ORG = 'jhipster-sandbox'
-  }
-  stages {
+    agent {
+      label "jenkins-maven"
+    }
     stage('CI Build and push snapshot') {
       when {
         branch 'PR-*'
