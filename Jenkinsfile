@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label "jenkins-maven"
+    label "jenkins-maven||jenkins-npm"
   }
   environment {
     ORG = 'bookerdimaio-software'
@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('npm install and test') {
       steps {
-        container('node:8-alpine') {
+        container('npm') {
           sh 'node --version'
           sh 'npm --version'
           sh 'npm install'
