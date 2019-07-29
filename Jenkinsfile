@@ -11,9 +11,10 @@ pipeline {
   stages {
     stage('npm install and test') {
       steps {
-        container('maven') {
-          sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.16.0 -DnpmVersion=6.9.0"
-          sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm"
+        container('node:8-alpine') {
+          sh 'node --version'
+          sh 'npm --version'
+          sh 'npm install'
           sh 'npm run test-ci'
         }
       }
