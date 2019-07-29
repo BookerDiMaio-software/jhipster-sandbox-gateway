@@ -32,7 +32,7 @@ export class Greeter extends React.Component<IGreeterProps> {
 
   search = () => {
     if (this.state.searchF && this.state.searchL) {
-      this.props.getEntityByName(this.state.searchF, this.state.searchL);
+      // this.props.getEntityByName(this.state.searchF, this.state.searchL);
     }
   };
 
