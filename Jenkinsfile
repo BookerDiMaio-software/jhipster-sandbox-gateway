@@ -1,5 +1,8 @@
 pipeline {
   agent {
+    docker {
+      image 'node:8-alpine'
+    }
     label "jenkins-maven||jenkins-npm"
   }
   environment {
@@ -11,7 +14,7 @@ pipeline {
   stages {
     stage('npm install and test') {
       steps {
-        container('npm') {
+        container('node') {
           sh 'node --version'
           sh 'npm --version'
           sh 'npm install'
